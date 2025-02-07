@@ -1,4 +1,4 @@
-name: macOS
+name: macOS with Chrome Remote Desktop
 
 on:
   workflow_dispatch:
@@ -13,6 +13,22 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+
+    - name: Install Homebrew
+      run: |
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    
+    - name: Install Chrome Remote Desktop
+      run: |
+        brew install --cask google-chrome
+        brew install --cask chrome-remote-desktop-host
+
+    - name: Start Chrome Remote Desktop
+      env:
+        CHROME_REMOTE_DESKTOP_CODE: ${{ secrets.CHROME_REMOTE_DESKTOP_CODE }}
+      run: |
+        /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 &
+        /Applications/Chrome\ Remote\ Desktop\ Host.app/Contents/MacOS/chrome-remote-desktop-host --start-host
 
     - name: Verify working directory
       run: pwd
