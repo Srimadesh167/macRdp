@@ -29,7 +29,7 @@ jobs:
         AWS_EC2: ${{ secrets.AWS_EC2 }}
       run: |
         chmod +x setup.sh
-        source setup.sh "$USER_PWD" "$USER_PWD" "$NGROK_AUTH_TOKEN" "$BACKUP_SRC" "$AWS_EC2"
+        ./setup.sh "$USER_PWD" "$USER_PWD" "$NGROK_AUTH_TOKEN" "$BACKUP_SRC" "$AWS_EC2"
 
     - name: ngrok is now listening to SSH connections on...
       run: curl --silent http://127.0.0.1:4040/api/tunnels | jq '.tunnels[0].public_url'
